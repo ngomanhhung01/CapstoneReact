@@ -5,7 +5,7 @@ export const useGetLichChieuHeThongRap = () => {
     const q = useQuery({
         queryKey: ['GetLichChieuHeThongRap'],
         queryFn: () => {
-            return quanLyRapServices.getThongTinLichChieuHeThongRap()
+            return quanLyRapServices.getShowTimesList()
         }
     })
 

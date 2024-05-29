@@ -5,7 +5,8 @@ export const useGetHeThongRap = () => {
     const q = useQuery({
         queryKey: ['GetHeThongRap'],
         queryFn: () => {
-            return quanLyRapServices.getThongTinHeThongRap()
+            return quanLyRapServices.getCinemaList()
+       
         }
     })
     return {

@@ -8,6 +8,13 @@ export type UserLogin = {
     accessToken: string
 }
 
+export type UserByAccessToken = Omit<UserLogin, "accessToken"> & {
+    thongTinDatVe?: [];
+    loaiNguoiDung: {
+        maLoaiNguoiDung: "KhachHang" | "QuanTri";
+    };
+};
+
 enum MaLoaiNgioiDung {
     QUAN_TRI = 'QuanTri',
     KHACH_HANG = 'KhachHang',
@@ -41,3 +48,34 @@ export type UserInfo = UserLogin & {
     }
     thongTinDatVe: VePhim[]
 }
+
+export type HistoRyBooking = {
+    taiKhoan: string;
+    hoTen: string;
+    email: string;
+    soDT: string;
+    maNhom: string;
+    maLoaiNguoiDung: "KhachHang" | "QUANTRI";
+    accessToken: string;
+    thongTinDatVe?: {
+        danhSachGhe: {
+            maCumRap: string;
+            maGhe: number;
+            maHeThongRap: string;
+            maRap: number;
+            tenCumRap: string;
+            tenGhe: string;
+            tenHeThongRap: string;
+            tenRap: string;
+        }[];
+        giaVe: number;
+        hinhAnh: string;
+        maVe: number;
+        ngayDat: string;
+        tenPhim: string;
+        thoiLuongPhim: number;
+    }[];
+    loaiNguoiDung: {
+        maLoaiNguoiDung: "KhachHang" | "QuanTri";
+    };
+};

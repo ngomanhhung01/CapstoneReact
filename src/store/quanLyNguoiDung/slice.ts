@@ -2,82 +2,80 @@ import { createSlice } from "@reduxjs/toolkit";
 import { quanLyNguoiDungActionThunks } from ".";
 import { LOCAL_USER_LOGIN_KEY } from "constant";
 import { getUserLogin } from "utils";
-import { Ghe } from "types";
+import { Ghe, HistoRyBooking, UserByAccessToken, UserLogin } from "types";
+import { getAccessToken } from "utils/getAccessToken";
 
+type QuanLyNguoiDungInitialState = {
+    accessToken?: string,
+    userLogin?: UserLogin | UserByAccessToken,
+    isFetchingLogin?: boolean,
+    isFetchingRegister?: boolean,
+    isFetchingUpload?: boolean,
+    historyBooking?: HistoRyBooking,
+    cartList ?: Ghe[], // Added the type for cartList
+    userInfo?: UserLogin
+}
 
-
-const initialState = {
+const initialState: QuanLyNguoiDungInitialState = {
+    accessToken : getAccessToken() ?? undefined,
     isFetchingRegister: false,
     isFetchingLogin: false,
     isFetchingUpload: false,
     userLogin: getUserLogin(),
-    cartList: [] as Ghe[],
-    userInfo: {}
+    cartList: [] as Ghe [], // Ensuring cartList is an array of Ghe
+    userInfo: undefined // Setting userInfo as undefined
 }
 
-export const { reducer: quanLyNguoiDungReducer, actions: quanLyNguoiDungAction  } = createSlice({
+export const { reducer: quanLyNguoiDungReducer, actions: quanLyNguoiDungAction } = createSlice({
     name: 'quanLyNguoiDung',
     initialState,
 
-    // xử lý action đồng bộ
+    // Synchronous actions
     reducers: {
-        addToCart: (state, action) => {
-        
-           
-           console.log("payload: ",action.payload)
-            const index = state.cartList.findIndex((gheDD) => {
-                return gheDD.maGhe === action.payload.maGhe
-            })
-            if(index !== -1) {
-                state.cartList.splice(index,1)
-            }else {
-                state.cartList.push(action.payload)
-                console.log("cart: ",state.cartList)
-            }
+        logOut : (state) => {
+            state.accessToken = undefined
+            state.userLogin = undefined
+            localStorage.removeItem("ACCESSTOKEN")
         },
-        clearCart: (state) => {
-            state.cartList = [];
-        },
-        updateUserLogin: (state, action) => {
-            state.userLogin = action.payload;
-        },
-    },
-  
-    // xử lý action bất đồng bộ
-    extraReducers: (builder) => {
-        builder.addCase(quanLyNguoiDungActionThunks.registerThunk.pending,(state) => {
-            state.isFetchingRegister = true
-        })
-        .addCase(quanLyNguoiDungActionThunks.registerThunk.fulfilled,(state) => {
-            state.isFetchingRegister = false
-        })
-        .addCase(quanLyNguoiDungActionThunks.registerThunk.rejected,(state) => {
-            state.isFetchingRegister = false
-        })
-
-
-        builder.addCase(quanLyNguoiDungActionThunks.loginThunk.pending,(state) => {
-            state.isFetchingLogin = true
-        })
-        .addCase(quanLyNguoiDungActionThunks.loginThunk.fulfilled,(state, {payload}) => {
-            state.isFetchingLogin = false
-            // luu thong tin dang nhap cua user vao localstorage
-            localStorage.setItem(LOCAL_USER_LOGIN_KEY, JSON.stringify(payload))
-            // set lai thong tin ueser login
+        update : (state, {payload}) => {
             state.userLogin = payload
+        }        
+    },
+
+    // Asynchronous actions
+    extraReducers: (builder) => {
+        builder.addCase(quanLyNguoiDungActionThunks.registerThunk.pending, (state) => {
+            state.isFetchingRegister = true;
         })
-        .addCase(quanLyNguoiDungActionThunks.loginThunk.rejected,(state) => {
-            state.isFetchingLogin = false
+        .addCase(quanLyNguoiDungActionThunks.registerThunk.fulfilled, (state) => {
+            state.isFetchingRegister = false;
+        })
+        .addCase(quanLyNguoiDungActionThunks.registerThunk.rejected, (state) => {
+            state.isFetchingRegister = false;
         })
 
-        .addCase(quanLyNguoiDungActionThunks.uploadThunk.pending,(state) => {
-            state.isFetchingUpload = true
+        builder.addCase(quanLyNguoiDungActionThunks.loginThunk.pending, (state) => {
+            state.isFetchingLogin = true;
         })
-        .addCase(quanLyNguoiDungActionThunks.uploadThunk.fulfilled,(state) => {
-            state.isFetchingUpload = false
+        .addCase(quanLyNguoiDungActionThunks.loginThunk.fulfilled, (state, { payload }) => {
+            state.isFetchingLogin = false;
+            // Save user login information to local storage
+            localStorage.setItem(LOCAL_USER_LOGIN_KEY, JSON.stringify(payload));
+            // Set user login information
+            state.userLogin = payload;
         })
-        .addCase(quanLyNguoiDungActionThunks.uploadThunk.rejected,(state) => {
-            state.isFetchingUpload = false
+        .addCase(quanLyNguoiDungActionThunks.loginThunk.rejected, (state) => {
+            state.isFetchingLogin = false;
+        })
+
+        builder.addCase(quanLyNguoiDungActionThunks.uploadThunk.pending, (state) => {
+            state.isFetchingUpload = true;
+        })
+        .addCase(quanLyNguoiDungActionThunks.uploadThunk.fulfilled, (state) => {
+            state.isFetchingUpload = false;
+        })
+        .addCase(quanLyNguoiDungActionThunks.uploadThunk.rejected, (state) => {
+            state.isFetchingUpload = false;
         })
     }
-})
+});

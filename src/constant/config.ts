@@ -1,7 +1,7 @@
 export const PATH = {
     login: '/login',
     register: '/register',
-    datVe: '/datve',
+    movieBooking : "/movieBooking/:id",
     userInfo: '/userInfo',
     movieDetail: '/movie/:movieId',
     admin: '/admin', 

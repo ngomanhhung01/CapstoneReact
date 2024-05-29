@@ -1,9 +1,7 @@
-import { UserInfoTemplate } from 'components/template/UserInfoTemplate'
+import React from 'react'
 
 export const UserInfo = () => {
   return (
-    <div className='container mt-[40px]'>
-        <UserInfoTemplate />
-    </div>
+    <div>UserInfo</div>
   )
 }

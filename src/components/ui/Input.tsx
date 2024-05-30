@@ -20,7 +20,7 @@ export type InputProps = {
                   <input
                       id={id}
                       type={type}
-                      className="p-10 mt-8 w-full rounded-6  bg-[#333]"
+                      className="p-10 mt-8 w-full rounded-6  bg-[#F5F5F5]"
                       placeholder={placeholder}
                       // value={formValue}
                       name={name}

@@ -5,6 +5,6 @@ export const useAuth = () => {
     const { accessToken, userLogin} = useSelector((state: RootState) => state.quanLyNguoiDung)
     return {
         accessToken,
-        userLogin
+        user: userLogin
     }
 }

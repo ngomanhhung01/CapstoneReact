@@ -23,7 +23,7 @@ export const Header = () => {
 
   const removeUserLogin = () => {
     localStorage.removeItem(LOCAL_USER_LOGIN_KEY);
-    dispatch(quanLyNguoiDungAction.updateUserLogin(null)); // dispatch action để cập nhật userLogin thành null
+    dispatch(quanLyNguoiDungAction.update(null)); // dispatch action để cập nhật userLogin thành null
     setIsLoggedIn(false); // cập nhật trạng thái isLoggedIn
     navigate("/login");
   };

@@ -1,6 +1,6 @@
 import { QUAN_LY_NGUOI_DUNG_API, apiInstance } from 'constant'
 import { LoginType, RegisterType } from 'schemas'
-import { UserInfo, UserLogin } from 'types'
+import { HistoRyBooking, Update, UserByAccessToken, UserInfo, UserLogin } from 'types'
 
 const api = apiInstance.create({
     baseURL: QUAN_LY_NGUOI_DUNG_API,
@@ -10,8 +10,10 @@ export const qlNguoiDungServices = {
     dangKy: (payload: RegisterType) => api.post('/DangKy', payload),
 
     dangNhap: (payload: LoginType) => api.post<HttpResponse<UserLogin>>('/DangNhap', payload),
-
+    getUserByAccessToKen : ()=> api.post<HttpResponse<UserByAccessToken>>("/ThongTinTaiKhoan"),
+    getHistoryBooking : ()=> api.post<HttpResponse<HistoRyBooking>>("/ThongTinTaiKhoan"),
     getUserInfo : () => api.post<HttpResponse<UserInfo>>('/ThongTinTaiKhoan'),
+    updateAccount: (value: Update) => api.put<HttpResponse<Update>>('/CapNhatThongTinNguoiDung',value)
 }
 
 

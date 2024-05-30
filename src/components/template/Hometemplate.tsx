@@ -43,8 +43,8 @@ export const Hometemplate = () => {
     setActiveButton('upcoming')
   };
 
-  const {userLogin } = useAuth()
-  console.log(userLogin)
+  const {user } = useAuth()
+  console.log(user)
 
   
   const { data: phimList, isFetching: isFetchingPhimList } = useGetPhimList();

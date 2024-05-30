@@ -79,3 +79,15 @@ export type HistoRyBooking = {
         maLoaiNguoiDung: "KhachHang" | "QuanTri";
     };
 };
+
+
+export type Update = {
+    taiKhoan: string;
+    matKhau: string;
+    email: string;
+    soDt: string;
+    maNhom: string;
+    maLoaiNguoiDung: string;
+    hoTen: string;
+};
+
